@@ -10,6 +10,17 @@ import UIKit
 
 open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
 
+    @objc public enum InputType: Int {
+        case picker
+        case fullScreen
+    }
+    
+    @objc public var inputType: InputType = .picker {
+        didSet {
+            addFlagButtonAction()
+        }
+    }
+    
 	/// The size of the flag
 	@objc public var flagSize: CGSize = CGSize(width: 32, height: 32) {
 		didSet {
@@ -116,12 +127,20 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
 		addTarget(self, action: #selector(displayNumberKeyBoard), for: .touchDown)
 	}
 
+    private func addFlagButtonAction(){
+        if self.inputType == .picker {
+            flagButton.addTarget(self, action: #selector(displayCountryKeyboard), for: .touchUpInside)
+        } else {
+            flagButton.addTarget(self, action: #selector(displayAlphabeticKeyBoard), for: .touchUpInside)
+        }
+    }
+    
 	private func setupFlagButton() {
 		flagButton.contentHorizontalAlignment = .fill
 		flagButton.contentVerticalAlignment = .fill
 		flagButton.imageView?.contentMode = .scaleAspectFit
 		flagButton.accessibilityLabel = "flagButton"
-		flagButton.addTarget(self, action: #selector(displayCountryKeyboard), for: .touchUpInside)
+        addFlagButtonAction()
 		flagButton.translatesAutoresizingMaskIntoConstraints = false
 		flagButton.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
 	}
