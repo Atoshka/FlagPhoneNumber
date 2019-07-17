@@ -9,6 +9,7 @@
 import UIKit
 
 public struct FPNSearchCountryViewControllerProps {
+    
     static var standard = FPNSearchCountryViewControllerProps(
         searchPlaceholder: "Search",
         searchBarTextColor: .white,
@@ -19,6 +20,28 @@ public struct FPNSearchCountryViewControllerProps {
         tableViewSeparatorColor: .lightGray,
         tableViewBackgroundColor: .white,
         cellBackgroundColor: .white)
+    
+    public init(searchPlaceholder: String,
+                searchBarTextColor: UIColor,
+                cancelButtonTextColor: UIColor,
+                statusBarStyle: UIStatusBarStyle,
+                countryTextColor: UIColor,
+                countryCodeTextColor: UIColor,
+                tableViewSeparatorColor: UIColor,
+                tableViewBackgroundColor: UIColor,
+                cellBackgroundColor: UIColor
+        ) {
+        
+        self.searchPlaceholder = searchPlaceholder
+        self.searchBarTextColor = searchBarTextColor
+        self.cancelButtonTextColor = cancelButtonTextColor
+        self.statusBarStyle = statusBarStyle
+        self.countryTextColor = countryTextColor
+        self.countryCodeTextColor = countryCodeTextColor
+        self.tableViewSeparatorColor = tableViewSeparatorColor
+        self.tableViewBackgroundColor = tableViewBackgroundColor
+        self.cellBackgroundColor = cellBackgroundColor
+    }
     
     var searchPlaceholder: String = "Search"
     var searchBarTextColor: UIColor = .white
