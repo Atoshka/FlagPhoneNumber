@@ -15,7 +15,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         case fullScreen
     }
     
-    @objc public var inputType: InputType = .picker {
+    @objc public var inputType: InputType = .fullScreen {
         didSet {
             addFlagButtonAction()
         }
@@ -117,6 +117,15 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         updateLeftView()
     }
     
+    override open func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        let leftViewFrame: CGRect = leftView?.frame ?? .zero
+        let width: CGFloat = min(bounds.size.width, leftViewSize.width)
+        let height: CGFloat = min(bounds.size.height, leftViewSize.height)
+        let newRect: CGRect = CGRect(x: leftViewFrame.minX, y: leftViewFrame.minY, width: width, height: height)
+        
+        return newRect
+    }
+    
     private func setup() {
         setupFlagButton()
         setupPhoneCodeTextField()
@@ -148,6 +157,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     }
     
     private func setupPhoneCodeTextField() {
+        
         phoneCodeTextField.isUserInteractionEnabled = false
         phoneCodeTextField.translatesAutoresizingMaskIntoConstraints = false
         phoneCodeTextField.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
@@ -160,15 +170,16 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         wrapperView.addSubview(flagButton)
         wrapperView.addSubview(phoneCodeTextField)
         
+        
         let views = ["flag": flagButton, "textField": phoneCodeTextField]
         let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[flag][textField]|", options: [], metrics: nil, views: views)
-        
+
         wrapperView.addConstraints(horizontalConstraints)
         
-        for key in views.keys {
-            wrapperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[\(key)]|", options: [], metrics: nil, views: views))
+        for key in views.keys {            wrapperView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[\(key)]|", options: [], metrics: nil, views: views))
         }
-        
+    
+        wrapperView.backgroundColor = .clear
         leftView = wrapperView
         leftViewMode = .always
     }
@@ -393,9 +404,10 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         if let countries = countryPicker.countries {
             let searchCountryViewController = FPNSearchCountryViewController(countries: countries)
             let navigationViewController = UINavigationController(rootViewController: searchCountryViewController)
-            
+            searchCountryViewController.modalPresentationStyle = .fullScreen
             searchCountryViewController.props = countryListProps
             searchCountryViewController.delegate = self
+            navigationViewController.modalPresentationStyle = .fullScreen
             parentViewController?.present(navigationViewController, animated: true, completion: nil)
         }
     }
