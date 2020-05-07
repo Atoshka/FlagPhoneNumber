@@ -71,8 +71,9 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         didSet {
             if hasPhoneNumberExample == false {
                 placeholder = nil
+            } else {
+                updatePlaceholder()
             }
-            updatePlaceholder()
         }
     }
     
@@ -445,7 +446,13 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
                 let phoneNumber = "+\(example.countryCode.stringValue)\(example.nationalNumber.stringValue)"
                 
                 if let inputString = formatter?.inputString(phoneNumber) {
-                    placeholder = remove(dialCode: "+\(example.countryCode.stringValue)", in: inputString)
+                    
+                    let placeholderString = remove(dialCode: "+\(example.countryCode.stringValue)", in: inputString)
+                    attributedPlaceholder = NSAttributedString(string: placeholderString, attributes: [
+                        NSAttributedString.Key.font: font ?? UIFont.systemFont(ofSize: 14),
+                    NSAttributedString.Key.foregroundColor: UIColor.lightGray
+                    ])
+                    
                 } else {
                     placeholder = nil
                 }
