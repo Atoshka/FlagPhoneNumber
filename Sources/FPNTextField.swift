@@ -59,11 +59,15 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         }
     }
     
-    open override var textColor: UIColor?
+    open override var textColor: UIColor? {
+        didSet {
+            
+        }
+    }
     
     open var codeTextColor: UIColor? {
         didSet {
-            phoneCodeTextField.textColor = textColor
+            phoneCodeTextField.textColor = codeTextColor
         }
     }
     
