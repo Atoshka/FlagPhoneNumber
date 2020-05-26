@@ -29,7 +29,7 @@ open class FPNCountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 			self.selectedLocale = Locale(identifier: code)
 		}
 
-		countries = getAllCountries()
+		countries = getUkraineCountry()
 
 		super.dataSource = self
 		super.delegate = self
@@ -133,6 +133,10 @@ open class FPNCountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 		return countries.sorted(by: { $0.name < $1.name })
 	}
 
+    private func getUkraineCountry() -> [FPNCountry] {
+        return getAllCountries().filter { $0.code == .UA }
+    }
+    
 	private func getAllCountries(excluding countryCodes: [FPNCountryCode]) -> [FPNCountry] {
 		var allCountries = getAllCountries()
 
