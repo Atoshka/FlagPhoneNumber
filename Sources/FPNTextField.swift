@@ -205,14 +205,11 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
         countryPicker.showPhoneNumbers = true
         countryPicker.backgroundColor = .white
         
-        if let firstCountry = countryPicker.countries.first {
+        if let regionCode = Locale.current.regionCode, let countryCode = FPNCountryCode(rawValue: regionCode) {
+            countryPicker.setCountry(countryCode)
+        } else if let firstCountry = countryPicker.countries.first {
             countryPicker.setCountry(firstCountry.code)
         }
-//        if let regionCode = Locale.current.regionCode, let countryCode = FPNCountryCode(rawValue: regionCode) {
-//            countryPicker.setCountry(countryCode)
-//        } else if let firstCountry = countryPicker.countries.first {
-//            countryPicker.setCountry(firstCountry.code)
-//        }
     }
     
     @objc private func displayNumberKeyBoard() {

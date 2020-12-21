@@ -29,7 +29,7 @@ open class FPNCountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 			self.selectedLocale = Locale(identifier: code)
 		}
 
-		countries = getUkraineCountry()
+		countries = getAllCountries()
 
 		super.dataSource = self
 		super.delegate = self
